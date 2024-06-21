@@ -1,5 +1,5 @@
 Flask==2.0.3
 waitress==2.0.0
-torch==2.1.0
-Pillow==8.3.2
+torch
+Pillow
 ultralytics==8.0.0
