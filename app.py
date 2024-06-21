@@ -1,19 +1,20 @@
 import os
 import logging
-from flask import Flask, request, render_template, redirect, url_for, flash
-import torch
+from flask import Flask, request, render_template, redirect, flash
 from PIL import Image
 import io
 import base64
 from ultralytics import YOLO
 
+# Initialisation de l'application Flask
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 app.secret_key = 'supersecretkey'
 
+# Configuration du logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Load YOLOv8 model
+# Chargement du modèle YOLOv8
 model_path = os.path.join(os.getcwd(), 'yolov8n.pt')
 logging.debug(f"Loading YOLO model from {model_path}")
 model = YOLO(model_path)
@@ -56,6 +57,5 @@ def predict():
         img_base64 = base64.b64encode(img_io.getvalue()).decode('ascii')
 
         return render_template('index.html', prediction_text=predictions_str, image_data=img_base64)
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+
+# Waitress prendra en charge le lancement de l'application en production.
